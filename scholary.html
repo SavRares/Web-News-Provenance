@@ -28,6 +28,7 @@
 
         <section>
             <h2>Introduction</h2>
+            
             <p>The use of semantic web technologies in online content management marks a substantial shift in how
                 information is structured, accessible, and shared on the internet. Traditional online technologies
                 rely mainly on static HTML and metadata, which can limit the richness and interconnectedness of web
@@ -105,52 +106,47 @@
                     </ul>
                 </li>
             </ul>
-            <section>
-                <h2>Implemented API</h2>
-                <p>The project includes an API that provides access to the internal data structures and models. The API
-                    allows users to perform various operations, such as querying articles, retrieving metadata, and
-                    accessing multimedia content. The API is designed to be RESTful, providing a simple and intuitive
-                    interface for interacting with the system.</p>
-                <p>The API endpoints include:</p>
-                <ul>
-                    <li><strong>GET /news</strong>: Retrieves a list of news in a paginated format. In order to take only a part of the news, the user can specify the following parameters:
-                        <ul>
-                            <li>skip - the number of news to skip</li>
-                            <li>take - how many news to take</li>
-                        </ul>
-                        We decided to implement this feature in this manner in order to reduce the amount of data that is sent to the client.
-                        This way, the client will receive only the data that it shows, and when the client goes to the next page, it will receive the next set of data.
-                    </li>
-                    <li><strong>GET /news/{id}</strong>: Retrieves detailed information about a specific article
-                        identified by its ID.</li>
-            </section>
-
-            <section>
-                <h2>RDF-Based Knowledge Model</h2>
-                <h3>Considerations on the Designed/Reused RDF Model</h3>
-                <p>The system integrates a carefully designed RDF-based knowledge model to support structured metadata
-                    and semantic relationships between entities. The following considerations were made while designing
-                    or reusing the model:</p>
-                <ul>
-                    <li><strong>Expressiveness</strong>: The ontology ensures a rich and flexible representation of
-                        domain concepts, relationships, and attributes to cover essential metadata related to online
-                        newspaper articles.</li>
-                    <li><strong>Vocabulary and Taxonomy</strong>: The system incorporates existing well-defined
-                        ontologies such as schema.org, DCMI Metadata Terms, and ITPC Standards to enhance compatibility
-                        and avoid redundant vocabulary creation.</li>
-                    <li><strong>Real Usage in Context</strong>: The selected ontologies and vocabularies are applied
-                        directly to model provenance, classification, and semantic annotation of news articles, ensuring
-                        real-world applicability within the developed system.</li>
-                </ul>
-                <p>Additionally, the ontology was generated and refined using <strong>Protégé</strong>, a widely used
-                    ontology development tool. The knowledge model was tested within Protégé to validate consistency,
-                    logical relationships, and expressiveness before integration into the system.</p>
-
-                <img src="assets/Protege-ont.png" alt="Protégé-generated Ontology"
-                    style="max-width: 100%; height: auto;">
-
-            </section>
+        </section>
+        
+        <section>
             <h2>Implemented API</h2>
+            <p>The project includes an API that provides access to the internal data structures and models. The API
+                allows users to perform various operations, such as querying articles, retrieving metadata, and
+                accessing multimedia content. The API is designed to be RESTful, providing a simple and intuitive
+                interface for interacting with the system.</p>
+            <p>
+                The API was implemented using Flask, a lightweight web framework for Python. The API endpoints are
+                designed to provide access to news articles, topics, and multimedia content in a structured and
+                efficient manner. The API supports various HTTP methods such as GET and POST to enable different
+                operations on the data. The API responses are formatted in JSON, XML, and Turtle to support different
+                data formats and serialization methods. The API also includes support for SPARQL queries to enable
+                advanced data retrieval and manipulation.
+            </p>
+            <p>The API endpoints include:</p>
+            <ul>
+                <li><strong>GET /news</strong>: Retrieves a list of news in a paginated format. In order to take only a part of the news, the user can specify the following parameters:
+                    <ul>
+                        <li>skip - the number of news to skip</li>
+                        <li>take - how many news to take</li>
+                    </ul>
+                    We decided to implement this feature in this manner in order to reduce the amount of data that is sent to the client.
+                    This way, the client will receive only the data that it shows, and when the client goes to the next page, it will receive the next set of data.
+                </li>
+                <li><strong>GET /news/{id}</strong>: Retrieves detailed information about a specific article
+                    identified by its ID.
+                </li>
+                <li><strong>GET /topics/{topic}</strong>: Retrieves recommended news with the same topic as the one specified in the URL. This endpoint is useful for providing users with related articles based on a specific topic of interest. </li>
+                <li><strong> GET /news_rdf_xml/{id}</strong>: Retrieves the news details as a XML. </li>    
+                <li><strong> GET /news_rdf_turtle/{id}</strong>: Retrieves the news details as a Turtle. </li>
+                <li><strong>POST /sparql</strong>: Based on the query provided by the user and the format of the response the API provides articles in different formats:
+                    <ul>
+                        <li>JSON: Shown as table</li>
+                        <li>JSON-LD: Show as json-ld</li>
+                        <li>RDFa: Shown as RDFa</li>
+                    </ul>
+                </li>
+            </ul>
+
             <h3>Architecture diagrams</h3>
 
             <img src="assets/C1.png" alt="C1 diagram" style="max-width: 100%; height: auto;">
@@ -159,133 +155,221 @@
 
             <img src="assets/C3.png" alt="C3 diagram" style="max-width: 100%; height: auto;">
 
-            <section>
+        </section>
 
-            </section>
+        <section>
+            <h2>RDF-Based Knowledge Model</h2>
+            <h3>Considerations on the Designed/Reused RDF Model</h3>
+            <p>The system integrates a carefully designed RDF-based knowledge model to support structured metadata
+                and semantic relationships between entities. The following considerations were made while designing
+                or reusing the model:</p>
+            <ul>
+                <li><strong>Expressiveness</strong>: The ontology ensures a rich and flexible representation of
+                    domain concepts, relationships, and attributes to cover essential metadata related to online
+                    newspaper articles.</li>
+                <li><strong>Vocabulary and Taxonomy</strong>: The system incorporates existing well-defined
+                    ontologies such as schema.org, DCMI Metadata Terms, and ITPC Standards to enhance compatibility
+                    and avoid redundant vocabulary creation.</li>
+                <li><strong>Real Usage in Context</strong>: The selected ontologies and vocabularies are applied
+                    directly to model provenance, classification, and semantic annotation of news articles, ensuring
+                    real-world applicability within the developed system.</li>
+            </ul>
+            <p>Additionally, the ontology was generated and refined using <strong>Protégé</strong>, a widely used
+                ontology development tool. The knowledge model was tested within Protégé to validate consistency,
+                logical relationships, and expressiveness before integration into the system.</p>
 
-            <section>
-                <h2>Integration with External Knowledge Sources</h2>
-                <p>SPARQL queries are employed to extract relevant data from DBpedia, enriching the
-                    internal knowledge base with external information. This integration enhances metadata completeness
-                    and contextual accuracy in news article classification.</p>
-            </section>
-            <section>
+            <img src="assets/Protege-ont.png" alt="Protégé-generated Ontology"
+                style="max-width: 100%; height: auto;">
 
-                <h2>Conformance to Linked Data Principles</h2>
-                <p>The solution adheres to linked data best practices by ensuring:</p>
-                <ul>
-                    <li><strong>Uniform Resource Identifiers (URIs)</strong>: Each entity in the RDF model has a
-                        globally unique and dereferenceable URI.</li>
-                    <li><strong>Standardized RDF Representations</strong>: The system supports RDF serialization formats
-                        such as Turtle, JSON-LD, and RDF/XML.</li>
-                    <li><strong>The use of SPARQL queries allows the data to be machine-readable and searchable</strong>
-                    </li>
-                </ul>
-            </section>
+        </section>
 
-            <section>
-                <h2>Non-trivial SPARQL queries of interest</h2>
+        <section>
+            <h2>Integration with External Knowledge Sources</h2>
+            <p>SPARQL queries are employed to extract relevant data from DBpedia, enriching the
+                internal knowledge base with external information. This integration enhances metadata completeness
+                and contextual accuracy in news article classification.</p>
+        </section>
 
-                <h4>1. Articles Sharing a Topic</h4>
-                <p>The following query identifies pairs of articles that share a common topic. This can be useful for
-                    discovering articles related to similar subjects and understanding how different articles are
-                    connected.</p>
-                <pre>
+        <section>
+            <h2>Conformance to Linked Data Principles</h2>
+            <p>The solution adheres to linked data best practices by ensuring:</p>
+            <ul>
+                <li><strong>Uniform Resource Identifiers (URIs)</strong>: Each entity in the RDF model has a
+                    globally unique and dereferenceable URI.</li>
+                <li><strong>Standardized RDF Representations</strong>: The system supports RDF serialization formats
+                    such as Turtle, JSON-LD, and RDF/XML.</li>
+                <li><strong>The use of SPARQL queries allows the data to be machine-readable and searchable</strong>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Non-trivial SPARQL queries of interest</h2>
+
+            <h4>1. Articles Sharing a Topic</h4>
+            <p>The following query identifies pairs of articles that share a common topic. This can be useful for
+                discovering articles related to similar subjects and understanding how different articles are
+                connected.</p>
+            <pre>
 PREFIX dc1: &lt;http://purl.org/dc/terms/&gt;
 PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
 
 SELECT ?article1 ?article2 ?relation
 WHERE {
-    ?article1 ns1:topic | dc1:subject ?topic .
-    ?article2 ns1:topic | dc1:subject ?topic .
-    FILTER (?article1 != ?article2)
-    BIND("Shared Topic" AS ?relation)
+?article1 ns1:topic | dc1:subject ?topic .
+?article2 ns1:topic | dc1:subject ?topic .
+FILTER (?article1 != ?article2)
+BIND("Shared Topic" AS ?relation)
 }
 </pre>
-                <p><strong>Explanation:</strong> This query finds pairs of articles (?article1 and ?article2) that share
-                    the same topic, using the `dc1:subject` and `ns1:topic` predicates. The `FILTER` clause ensures that
-                    an article is not compared with itself, and the `BIND` function creates a new variable (`?relation`)
-                    indicating the shared topic.</p>
+            <p><strong>Explanation:</strong> This query finds pairs of articles (?article1 and ?article2) that share
+                the same topic, using the `dc1:subject` and `ns1:topic` predicates. The `FILTER` clause ensures that
+                an article is not compared with itself, and the `BIND` function creates a new variable (`?relation`)
+                indicating the shared topic.</p>
 
-                <img src="assets/FirstSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+            <img src="assets/FirstSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
 
-                <h4>2. Articles Linked to DBpedia</h4>
-                <p>This query identifies articles that are linked to entities in DBpedia, an external resource that
-                    contains structured data about various topics. It helps establish connections between the content of
-                    the articles and the rich external knowledge provided by DBpedia.</p>
-                <pre>
+            <h4>2. Articles Linked to DBpedia</h4>
+            <p>This query identifies articles that are linked to entities in DBpedia, an external resource that
+                contains structured data about various topics. It helps establish connections between the content of
+                the articles and the rich external knowledge provided by DBpedia.</p>
+            <pre>
 PREFIX dc: &lt;http://purl.org/dc/terms/&gt;
 PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
 
 SELECT ?article ?dbpediaEntity ?relation
 WHERE {
-    ?article dc:subject ?dbpediaEntity .
-    FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
-    BIND("Linked to DBpedia" AS ?relation)
+?article dc:subject ?dbpediaEntity .
+FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
+BIND("Linked to DBpedia" AS ?relation)
 }
 </pre>
-                <p><strong>Explanation:</strong> This query retrieves articles that are linked to DBpedia resources by
-                    examining the `dc:subject` predicate. The `FILTER` clause ensures that only URIs starting with
-                    `http://dbpedia.org/resource/` are included. The `BIND` function adds a relationship label "Linked
-                    to DBpedia" to these articles.</p>
+            <p><strong>Explanation:</strong> This query retrieves articles that are linked to DBpedia resources by
+                examining the `dc:subject` predicate. The `FILTER` clause ensures that only URIs starting with
+                `http://dbpedia.org/resource/` are included. The `BIND` function adds a relationship label "Linked
+                to DBpedia" to these articles.</p>
 
-                <img src="assets/SecondSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+            <img src="assets/SecondSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
 
-                <h4>3. Constructing RDF Data for Articles Linked to DBpedia</h4>
-                <p>This query constructs new RDF triples that link articles to DBpedia entities. It can be used to
-                    populate a knowledge graph or store this relationship for further processing.</p>
-                <pre>
+            <h4>3. Constructing RDF Data for Articles Linked to DBpedia</h4>
+            <p>This query constructs new RDF triples that link articles to DBpedia entities. It can be used to
+                populate a knowledge graph or store this relationship for further processing.</p>
+            <pre>
 PREFIX dc: &lt;http://purl.org/dc/terms/&gt;
 PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
 
 CONSTRUCT {
-    ?article dc:subject ?dbpediaEntity .
+?article dc:subject ?dbpediaEntity .
 }
 WHERE {
-    ?article dc:subject ?dbpediaEntity .
-    FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
+?article dc:subject ?dbpediaEntity .
+FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
 }
 </pre>
-                <p><strong>Explanation:</strong> The `CONSTRUCT` query generates new RDF triples that relate articles
-                    (`?article`) to DBpedia entities (`?dbpediaEntity`). This is a typical query for creating or
-                    updating RDF graphs where articles are connected to external knowledge sources.</p>
+            <p><strong>Explanation:</strong> The `CONSTRUCT` query generates new RDF triples that relate articles
+                (`?article`) to DBpedia entities (`?dbpediaEntity`). This is a typical query for creating or
+                updating RDF graphs where articles are connected to external knowledge sources.</p>
 
-                <h4>4. Articles with Descriptions Longer than 40 Words</h4>
-                <p>This query identifies articles where the description is sufficiently long (more than 40 characters).
-                    It can be useful for filtering articles based on their content length or ensuring that articles with
-                    detailed descriptions are selected.</p>
-                <pre>
+            <h4>4. Articles with Descriptions Longer than 40 Words</h4>
+            <p>This query identifies articles where the description is sufficiently long (more than 40 characters).
+                It can be useful for filtering articles based on their content length or ensuring that articles with
+                detailed descriptions are selected.</p>
+            <pre>
 PREFIX dc1: &lt;http://purl.org/dc/terms/&gt;
 PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
 
 SELECT ?article ?title ?description
 WHERE {
-  ?article rdf:type &lt;http://www.semanticweb.org/raressavin/ontologies/2025/0/NewsProv#NewsArticle&gt; .
-  ?article dc1:title ?title .
-  ?article dc1:description ?description .
-  
-  FILTER (STRLEN(STR(?description)) - STRLEN(REPLACE(STR(?description), " ", "")) >= 40)
+?article rdf:type &lt;http://www.semanticweb.org/raressavin/ontologies/2025/0/NewsProv#NewsArticle&gt; .
+?article dc1:title ?title .
+?article dc1:description ?description .
+
+FILTER (STRLEN(STR(?description)) - STRLEN(REPLACE(STR(?description), " ", "")) >= 40)
 }
 </pre>
-                <p><strong>Explanation:</strong> This query retrieves articles with descriptions that are longer than 40
-                    characters, using the `dc1:description` predicate. The `FILTER` clause calculates the length of the
-                    description by removing spaces and comparing the result. The `rdf:type` filter ensures that only
-                    articles of the type `NewsArticle` are selected.</p>
+            <p><strong>Explanation:</strong> This query retrieves articles with descriptions that are longer than 40
+                characters, using the `dc1:description` predicate. The `FILTER` clause calculates the length of the
+                description by removing spaces and comparing the result. The `rdf:type` filter ensures that only
+                articles of the type `NewsArticle` are selected.</p>
 
-            </section>
+        </section>
 
+        <section>
+            <h2>User Guide</h2>
+            <p>The platform provides a user-friendly interface for querying, visualizing, and exploring news articles
+                and their provenance. Users can perform the following actions:</p>
 
+            <h3>Access the platform</h3>
+            <p>Users can access the platform through a web browser by entering the platform's URL in the address bar.
+                <a href="https://webnewsprovenance.vercel.app/">https://webnewsprovenance.vercel.app/</a>
+            </p>
+            <p>
+                When accesing the platform there are two main scenarios:
+                <ul>
+                    <li><strong>The user is already authenticated.</strong> In this case the user will be able to navigate trough the news provided by the platform.
+                    </li>
 
-            <section>
-                <h2>Conclusion</h2>
+                    <li><strong>The user is not authenticated.</strong> In this case the user will have to sign in by pressing the sign in button.
+                        <img src="assets/landing-page.png" alt="Unauthenticated User" style="max-width: 100%; height: auto;">
+                        After pressing the sign in button, the user will be redirected to the authentication page.
+                        <img src="assets/sing-in.png" alt="Authentication Page" style="max-width: 100%; height: auto;">
+                        Only after the user signs in successfully, he will be able to navigate through the news.
+                    </li>
+                </ul>
+            </p>
 
-                <p>This project demonstrates how semantic web technologies can enhance the management and exploration of
-                    news article provenance. By integrating structured metadata models like DCMI, ITPC Standards, and
-                    the Social Semantic Web Thesaurus, alongside powerful external knowledge sources such as DBpedia,
-                    the platform enriches the context and accuracy of news content. Through the use of RDF and SPARQL,
-                    the system not only enables efficient querying and visualization of articles but also fosters deeper
-                    interconnections between entities and topics.</p>
-            </section>
+            <h3>Navigate trough news</h3>
+            <p>Users can navigate through the news by scrolling down the page or by using the pagination controls at
+                the start and bottom of the page. The pagination controls allow users to move between pages of news articles.
+                Each article is represented by a card containing a possible image, if any present for the article, and the title.
+            </p>
+            <img src="assets/news-page.png" alt="Authenticated User" style="max-width: 100%; height: auto;">
+
+            <h3>View detailed articles</h3>
+            <p>
+                Users can view detailed information about a specific article by clicking on the article card. This will
+                open a  window containing the article's title, description, author, source, and publication date.
+                The modal also provides a link to the full article content.
+                Also on this page the user is able to see the multimedia content of the article.
+                <img src="assets/news-details-page.png" alt="Article Page" style="max-width: 100%; height: auto;">
+
+                If interested the user has the option to see the article in Turtle format by pressing "Open as Turtle" or as XML by pressing "Open as XML RDF".
+                <img src="assets/news-details-page-2.png" alt="Turtle and XML" style="max-width: 100%; height: auto;">
+            </p>
+
+            <h3>Search for articles by using SPARQL Queries</h3>
+            <p>
+                Users can search for articles by using SPARQL queries. The user can access the SPARQL query page by pressing the "SPARQL Query" button.
+                <img src="assets/sparql-query-page.png" alt="SPARQL Page" style="max-width: 100%; height: auto;">
+                The user can write the query in the text area and press the "Execute Query" button to see the results.
+                <img src="assets/sparql-query-page-2.png" alt="SPARQL Page 2" style="max-width: 100%; height: auto;">
+                As it can be seen in the provided image the use cand choose in which format to see the results.
+                <ul>
+                    <li>JSON
+                        <p>When the user chooses to visualize the data in JSON format the result will be transformed in a table.</p>
+                    </li>
+                    <li>JSON-LD
+                        <p>When the user chooses to visualize the data in JSON-LD format the result will be presented as a JSON-LD</p>
+                        <img src="assets/json-ld-result.png" alt="SPARQL Page 3" style="max-width: 100%; height: auto;">
+                    </li>
+                    <li>RDFa
+                        <p>When the user chooses to visualize the data in RDFa format the result will be presented as links to the RDFas</p>
+                        <img src="assets/rdfa-result.png" alt="SPARQL Page 3" style="max-width: 100%; height: auto;">
+                    </li>
+                </ul>
+            </p>
+        </section>
+
+        <section>
+            <h2>Conclusion</h2>
+
+            <p>This project demonstrates how semantic web technologies can enhance the management and exploration of
+                news article provenance. By integrating structured metadata models like DCMI, ITPC Standards, and
+                the Social Semantic Web Thesaurus, alongside powerful external knowledge sources such as DBpedia,
+                the platform enriches the context and accuracy of news content. Through the use of RDF and SPARQL,
+                the system not only enables efficient querying and visualization of articles but also fosters deeper
+                interconnections between entities and topics.</p>
+        </section>
     </article>
 
     <footer>
