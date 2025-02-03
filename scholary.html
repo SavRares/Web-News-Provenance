@@ -150,18 +150,6 @@
                     style="max-width: 100%; height: auto;">
 
             </section>
-            <h2>Implemented API</h2>
-            <h3>Architecture diagrams</h3>
-
-            <img src="assets/C1.png" alt="C1 diagram" style="max-width: 100%; height: auto;">
-
-            <img src="assets/C2.png" alt="C2 diagram" style="max-width: 100%; height: auto;">
-
-            <img src="assets/C3.png" alt="C3 diagram" style="max-width: 100%; height: auto;">
-
-            <section>
-
-            </section>
 
             <section>
                 <h2>Integration with External Knowledge Sources</h2>
@@ -274,8 +262,6 @@ WHERE {
 
             </section>
 
-
-
             <section>
                 <h2>Conclusion</h2>
 
@@ -286,6 +272,45 @@ WHERE {
                     the system not only enables efficient querying and visualization of articles but also fosters deeper
                     interconnections between entities and topics.</p>
             </section>
+
+            <section>
+                <h2>User Guide</h2>
+                <p>The platform provides a user-friendly interface for querying, visualizing, and exploring news articles
+                    and their provenance. Users can perform the following actions:</p>
+
+                <h3>Access the platform</h3>
+                <p>Users can access the platform through a web browser by entering the platform's URL in the address bar.
+                    <a href="https://webnewsprovenance.vercel.app/">https://webnewsprovenance.vercel.app/</a>
+                </p>
+                <p>
+                    When accesing the platform there are two main scenarios:
+                    <ul>
+                        <li><strong>The user is already authenticated.</strong> In this case the user will be able to navigate trough the news provided by the platform.
+                        </li>
+
+                        <li><strong>The user is not authenticated.</strong> In this case the user will have to sign in by pressing the sign in button.
+                            <img src="assets/landing-page.png" alt="Unauthenticated User" style="max-width: 100%; height: auto;">
+                            After pressing the sign in button, the user will be redirected to the authentication page.
+                            <img src="assets/sing-in.png" alt="Authentication Page" style="max-width: 100%; height: auto;">
+                            Only after the user signs in successfully, he will be able to navigate through the news.
+                        </li>
+                </p>
+
+                <h3>Navigate trough news</h3>
+                <p>Users can navigate through the news by scrolling down the page or by using the pagination controls at
+                    the start and bottom of the page. The pagination controls allow users to move between pages of news articles.
+                    Each article is represented by a card containing a possible image, if any present for the article, and the title.
+                </p>
+                <img src="assets/news-page.png" alt="Authenticated User" style="max-width: 100%; height: auto;">
+
+                <h3>View detailed articles</h3>
+                <p>
+                    Users can view detailed information about a specific article by clicking on the article card. This will
+                    open a  window containing the article's title, description, author, source, and publication date.
+                    The modal also provides a link to the full article content.
+                </p>
+            </section>
+
     </article>
 
     <footer>
