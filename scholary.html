@@ -127,7 +127,7 @@
                     ontology development tool. The knowledge model was tested within Protégé to validate consistency,
                     logical relationships, and expressiveness before integration into the system.</p>
 
-                <img src="resources/Protege-ont.png" alt="Protégé-generated Ontology"
+                <img src="assets/Protege-ont.png" alt="Protégé-generated Ontology"
                     style="max-width: 100%; height: auto;">
 
             </section>
@@ -176,7 +176,7 @@ WHERE {
                     an article is not compared with itself, and the `BIND` function creates a new variable (`?relation`)
                     indicating the shared topic.</p>
 
-                <img src="resources/FirstSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+                <img src="assets/FirstSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
 
                 <h4>2. Articles Linked to DBpedia</h4>
                 <p>This query identifies articles that are linked to entities in DBpedia, an external resource that
@@ -198,7 +198,7 @@ WHERE {
                     `http://dbpedia.org/resource/` are included. The `BIND` function adds a relationship label "Linked
                     to DBpedia" to these articles.</p>
 
-                <img src="resources/SecondSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+                <img src="assets/SecondSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
 
                 <h4>3. Constructing RDF Data for Articles Linked to DBpedia</h4>
                 <p>This query constructs new RDF triples that link articles to DBpedia entities. It can be used to
