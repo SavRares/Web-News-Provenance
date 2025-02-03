@@ -41,11 +41,220 @@
 
         <section>
             <h2>Internal Data Structures and Models</h2>
+            <p>The core data structure involves representing News Articles, Topics, and Media. This can be mapped to the
+                following models:</p>
+
+            <h3>NewsArticle Model</h3>
+            <ul>
+                <li><strong>ID:</strong> URI (<code>rdf:type</code> in the RDF) to uniquely identify each news article.
+                </li>
+                <li><strong>Title:</strong> The title of the news article (<code>dc1:title</code>).</li>
+                <li><strong>Description:</strong> A short description or summary of the article
+                    (<code>dc1:description</code>).</li>
+                <li><strong>Source:</strong> The news source(<code>dc1:source</code>).</li>
+                <li><strong>Date:</strong> The date the article was published (<code>dc1:date</code>).</li>
+                <li><strong>Author:</strong> The author of the article (<code>dc1:author</code>).</li>
+                <li><strong>Content:</strong> The content of the article (<code>dc1:content</code>).</li>
+                <li><strong>Identifier:</strong> A reference to an external identifier (<code>dc1:identifier</code>).
+                </li>
+                <li><strong>Topics:</strong> A collection of topics related to the article (<code>ns1:topic</code>).
+                </li>
+            </ul>
+
+            <h3>Media Model</h3>
+            <ul>
+                <li><strong>ID:</strong> URI (<code>rdf:about</code> in the RDF) to uniquely identify the media object.
+                </li>
+                <li><strong>Type:</strong> The type of media (<code>iptc:DigitalSourceType</code>).</li>
+                <li><strong>Identifiers:</strong> Multiple image URLs as resources (<code>dc1:identifier</code>), each
+                    representing different versions or representations of the media.</li>
+            </ul>
+
+            <h3>Entity Model for Subject and Topics</h3>
+            <p>Each subject is represented as a separate entity with a URI and a
+                collection of identifiers for cross-referencing in the knowledge base for DBpedia.</p>
+
+            <h3>Databases Used in the Project</h3>
+            <p>In this project, two types of databases are utilized: SQLite and Fuseki. Each serves a different purpose
+                in terms of data storage and querying capabilities.</p>
+
+            <h3>SQLite Database</h3>
+            <p>The SQLite database is used to store structured data, such as news articles, metadata, and associated
+                properties.</p>
+            <ul>
+                <li><strong>Usage</strong>: Stores metadata such as titles, dates, and authors.</li>
+                <li><strong>Technical Details</strong>:
+                    <ul>
+                        <li>Database type: SQLite</li>
+                        <li>Tables: Articles, Multimedia, Topics</li>
+                        <li>Querying method: SQL</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Fuseki Database</h3>
+            <p>The Fuseki database serves as a SPARQL endpoint for querying RDF data stored in the project.</p>
+            <ul>
+                <li><strong>Usage</strong>: Used to query RDF data via SPARQL queries.</li>
+                <li><strong>Technical Details</strong>:
+                    <ul>
+                        <li>Database type: Fuseki (SPARQL endpoint)</li>
+                        <li>Data format: RDF, JSON, JSON-LD, RDFa</li>
+                        <li>Querying method: SPARQL</li>
+                        <li>Access: HTTP-based endpoint</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <section>
+                <h2>RDF-Based Knowledge Model</h2>
+                <h3>Considerations on the Designed/Reused RDF Model</h3>
+                <p>The system integrates a carefully designed RDF-based knowledge model to support structured metadata
+                    and semantic relationships between entities. The following considerations were made while designing
+                    or reusing the model:</p>
+                <ul>
+                    <li><strong>Expressiveness</strong>: The ontology ensures a rich and flexible representation of
+                        domain concepts, relationships, and attributes to cover essential metadata related to online
+                        newspaper articles.</li>
+                    <li><strong>Vocabulary and Taxonomy</strong>: The system incorporates existing well-defined
+                        ontologies such as schema.org, DCMI Metadata Terms, and ITPC Standards to enhance compatibility
+                        and avoid redundant vocabulary creation.</li>
+                    <li><strong>Real Usage in Context</strong>: The selected ontologies and vocabularies are applied
+                        directly to model provenance, classification, and semantic annotation of news articles, ensuring
+                        real-world applicability within the developed system.</li>
+                </ul>
+                <p>Additionally, the ontology was generated and refined using <strong>Protégé</strong>, a widely used
+                    ontology development tool. The knowledge model was tested within Protégé to validate consistency,
+                    logical relationships, and expressiveness before integration into the system.</p>
+
+                <img src="resources/Protege-ont.png" alt="Protégé-generated Ontology"
+                    style="max-width: 100%; height: auto;">
+
+            </section>
+
+            <section>
+                <h2>Integration with External Knowledge Sources</h2>
+                <p>SPARQL queries are employed to extract relevant data from DBpedia, enriching the
+                    internal knowledge base with external information. This integration enhances metadata completeness
+                    and contextual accuracy in news article classification.</p>
+            </section>
             <section>
 
-                <section>
-                    <h2>Conclusion</h2>
-                </section>
+                <h2>Conformance to Linked Data Principles</h2>
+                <p>The solution adheres to linked data best practices by ensuring:</p>
+                <ul>
+                    <li><strong>Uniform Resource Identifiers (URIs)</strong>: Each entity in the RDF model has a
+                        globally unique and dereferenceable URI.</li>
+                    <li><strong>Standardized RDF Representations</strong>: The system supports RDF serialization formats
+                        such as Turtle, JSON-LD, and RDF/XML.</li>
+                    <li><strong>The use of SPARQL queries allows the data to be machine-readable and searchable</strong>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Non-trivial SPARQL queries of interest</h2>
+
+                <h4>1. Articles Sharing a Topic</h4>
+                <p>The following query identifies pairs of articles that share a common topic. This can be useful for
+                    discovering articles related to similar subjects and understanding how different articles are
+                    connected.</p>
+                <pre>
+PREFIX dc1: &lt;http://purl.org/dc/terms/&gt;
+PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
+
+SELECT ?article1 ?article2 ?relation
+WHERE {
+    ?article1 ns1:topic | dc1:subject ?topic .
+    ?article2 ns1:topic | dc1:subject ?topic .
+    FILTER (?article1 != ?article2)
+    BIND("Shared Topic" AS ?relation)
+}
+</pre>
+                <p><strong>Explanation:</strong> This query finds pairs of articles (?article1 and ?article2) that share
+                    the same topic, using the `dc1:subject` and `ns1:topic` predicates. The `FILTER` clause ensures that
+                    an article is not compared with itself, and the `BIND` function creates a new variable (`?relation`)
+                    indicating the shared topic.</p>
+
+                <img src="resources/FirstSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+
+                <h4>2. Articles Linked to DBpedia</h4>
+                <p>This query identifies articles that are linked to entities in DBpedia, an external resource that
+                    contains structured data about various topics. It helps establish connections between the content of
+                    the articles and the rich external knowledge provided by DBpedia.</p>
+                <pre>
+PREFIX dc: &lt;http://purl.org/dc/terms/&gt;
+PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
+
+SELECT ?article ?dbpediaEntity ?relation
+WHERE {
+    ?article dc:subject ?dbpediaEntity .
+    FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
+    BIND("Linked to DBpedia" AS ?relation)
+}
+</pre>
+                <p><strong>Explanation:</strong> This query retrieves articles that are linked to DBpedia resources by
+                    examining the `dc:subject` predicate. The `FILTER` clause ensures that only URIs starting with
+                    `http://dbpedia.org/resource/` are included. The `BIND` function adds a relationship label "Linked
+                    to DBpedia" to these articles.</p>
+
+                <img src="resources/SecondSpql.png" alt="SparQL query" style="max-width: 100%; height: auto;">
+
+                <h4>3. Constructing RDF Data for Articles Linked to DBpedia</h4>
+                <p>This query constructs new RDF triples that link articles to DBpedia entities. It can be used to
+                    populate a knowledge graph or store this relationship for further processing.</p>
+                <pre>
+PREFIX dc: &lt;http://purl.org/dc/terms/&gt;
+PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
+
+CONSTRUCT {
+    ?article dc:subject ?dbpediaEntity .
+}
+WHERE {
+    ?article dc:subject ?dbpediaEntity .
+    FILTER(STRSTARTS(STR(?dbpediaEntity), "http://dbpedia.org/resource/"))
+}
+</pre>
+                <p><strong>Explanation:</strong> The `CONSTRUCT` query generates new RDF triples that relate articles
+                    (`?article`) to DBpedia entities (`?dbpediaEntity`). This is a typical query for creating or
+                    updating RDF graphs where articles are connected to external knowledge sources.</p>
+
+                <h4>4. Articles with Descriptions Longer than 40 Words</h4>
+                <p>This query identifies articles where the description is sufficiently long (more than 40 characters).
+                    It can be useful for filtering articles based on their content length or ensuring that articles with
+                    detailed descriptions are selected.</p>
+                <pre>
+PREFIX dc1: &lt;http://purl.org/dc/terms/&gt;
+PREFIX ns1: &lt;http://www.socialsemanticweb.org/ns/&gt;
+
+SELECT ?article ?title ?description
+WHERE {
+  ?article rdf:type &lt;http://www.semanticweb.org/raressavin/ontologies/2025/0/NewsProv#NewsArticle&gt; .
+  ?article dc1:title ?title .
+  ?article dc1:description ?description .
+  
+  FILTER (STRLEN(STR(?description)) - STRLEN(REPLACE(STR(?description), " ", "")) >= 40)
+}
+</pre>
+                <p><strong>Explanation:</strong> This query retrieves articles with descriptions that are longer than 40
+                    characters, using the `dc1:description` predicate. The `FILTER` clause calculates the length of the
+                    description by removing spaces and comparing the result. The `rdf:type` filter ensures that only
+                    articles of the type `NewsArticle` are selected.</p>
+
+            </section>
+
+
+
+            <section>
+                <h2>Conclusion</h2>
+
+                <p>This project demonstrates how semantic web technologies can enhance the management and exploration of
+                    news article provenance. By integrating structured metadata models like DCMI, ITPC Standards, and
+                    the Social Semantic Web Thesaurus, alongside powerful external knowledge sources such as DBpedia,
+                    the platform enriches the context and accuracy of news content. Through the use of RDF and SPARQL,
+                    the system not only enables efficient querying and visualization of articles but also fosters deeper
+                    interconnections between entities and topics.</p>
+            </section>
     </article>
 
     <footer>
@@ -55,6 +264,8 @@
                     href="https://www.dbpedia.org/">https://www.dbpedia.org/</a></li>
             <li>Wikidata. (2025). <em>Wikidata Query Service</em>. Retrieved from <a
                     href="https://query.wikidata.org/">https://query.wikidata.org/</a></li>
+            <li>Protege <em>About Protege</em>. Retrieved from <a
+                    href="https://protege.stanford.edu/">https://protege.stanford.edu/</a></li>
         </ul>
     </footer>
 </body>
