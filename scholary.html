@@ -105,6 +105,25 @@
                     </ul>
                 </li>
             </ul>
+            <section>
+                <h2>Implemented API</h2>
+                <p>The project includes an API that provides access to the internal data structures and models. The API
+                    allows users to perform various operations, such as querying articles, retrieving metadata, and
+                    accessing multimedia content. The API is designed to be RESTful, providing a simple and intuitive
+                    interface for interacting with the system.</p>
+                <p>The API endpoints include:</p>
+                <ul>
+                    <li><strong>GET /news</strong>: Retrieves a list of news in a paginated format. In order to take only a part of the news, the user can specify the following parameters:
+                        <ul>
+                            <li>skip - the number of news to skip</li>
+                            <li>take - how many news to take</li>
+                        </ul>
+                        We decided to implement this feature in this manner in order to reduce the amount of data that is sent to the client.
+                        This way, the client will receive only the data that it shows, and when the client goes to the next page, it will receive the next set of data.
+                    </li>
+                    <li><strong>GET /news/{id}</strong>: Retrieves detailed information about a specific article
+                        identified by its ID.</li>
+            </section>
 
             <section>
                 <h2>RDF-Based Knowledge Model</h2>
