@@ -111,7 +111,7 @@
 <summary>Database</summary>
   <ul>
     <li><a href="https://www.sqlite.org/">Sqlite</a></li>
-    <li><a href="https://fuseki-sparql.onrender.com/#/">Apache Jena Fuseki</a></li>
+    <li><a href="https://jena.apache.org/documentation/fuseki2/">Apache Jena Fuseki</a></li>
   </ul>
 </details>
 
@@ -192,14 +192,62 @@ Start the server
 ```
 
 #### flask-ontology-app
+
+This repository contains the backend developed for this application
+
 ```bash
   git clone https://github.com/SavRares/flask-ontology-app
 ```
+Go to the project directory
+
+```bash
+    cd flask-ontology-app
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the server
+
+```bash
+export FLASK_APP=app.py
+flask run
+```
+
+The project will be available on port 5000 by default
 
 #### jena-fuseki-db-app
+
+This repository contains a dockerfile which creates the fuseki database and it is needed for the deployment due to the free trial, as a workaround. To run locally:
+
 ```bash
   git clone https://github.com/SavRares/jena-fuseki-db-app
 ```
+
+Go to the project directory
+
+```bash
+    cd flask-ontology-app
+```
+
+Run the dockerfile
+
+```bash
+docker build -t my-jena-fuseki-app .
+docker run -d -p 3030:3030 my-jena-fuseki-app
+```
+
+To access the fuseki DB navigate to
+
+```bash
+http://localhost:3030
+```
+
+There you can upload the newsDCMI.rdf to the news datastore.
+
 
 <!-- Deployment -->
 
@@ -211,9 +259,11 @@ If you added some modifications to the `nerp` repository, a pull request will be
 
 #### Backend
 
+If you made changes to the `flask-ontology-app` repository, you will have to navigate to <a href="https://dashboard.render.com/">https://dashboard.render.com/</a> and re-deploy with the latest commit. 
+
 ### SPARQL DB
 
-<!-- Roadmap -->
+Changes are not expected to the `jena-fuseki-db-app` repository but if needed, after pushing to the git repo you will have to navigate to <a href="https://dashboard.render.com/">https://dashboard.render.com/</a> and re-deploy with the latest commit. 
 
 ## :compass: Roadmap
 
