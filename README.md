@@ -279,15 +279,6 @@ The data to be uploaded manually due to the free subscription to render deployme
 - [x] SPARQL query page
 - [ ] Add more data
 - [ ] Extend ontology
-<!-- Contributing -->
-
-## :wave: Contributing
-
-<a href="https://github.com/SavRares/Web-News-Provenance/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SavRares/Web-News-Provenance" />
-</a>
-
-Contributions are always welcome!
 
 
 ## :warning: License
