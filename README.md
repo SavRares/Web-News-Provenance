@@ -248,6 +248,7 @@ http://localhost:3030
 
 There you can upload the newsDCMI.rdf to the news datastore.
 
+http://localhost:3030/#/dataset/news/upload => select files => select the newsDCMI.rdf file found in the git repo => upload all
 
 <!-- Deployment -->
 
@@ -261,9 +262,15 @@ If you added some modifications to the `nerp` repository, a pull request will be
 
 If you made changes to the `flask-ontology-app` repository, you will have to navigate to <a href="https://dashboard.render.com/">https://dashboard.render.com/</a> and re-deploy with the latest commit. 
 
+An OpenAPI documentation can be found on this link: https://flask-ontology-app.onrender.com/apidocs/
+
 ### SPARQL DB
 
 Changes are not expected to the `jena-fuseki-db-app` repository but if needed, after pushing to the git repo you will have to navigate to <a href="https://dashboard.render.com/">https://dashboard.render.com/</a> and re-deploy with the latest commit. 
+
+Important! 
+You will have to manually navigate to https://fuseki-sparql.onrender.com/#/dataset/news/upload
+The data to be uploaded manually due to the free subscription to render deployment not allowing file storage. To do so, follow the instructions from the Run Locally section for jena-fuseki-db-app.
 
 ## :compass: Roadmap
 
